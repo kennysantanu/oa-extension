@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>OA Extension</title>
+    <link rel="stylesheet" href="sidepanel.css" />
+  </head>
+  <body>
+    <div id="sidebar-container">
+      <!-- Page Action Section -->
+      <div id="page-action-section" class="section">
+        <div class="section-header">
+          <h3>Page Action</h3>
+        </div>
+
+        <!-- Page Action Content -->
+        <div id="page-action-content" class="content">
+          <div id="no-actions" class="empty-state">
+            <p>No page action available.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Temporary Notes Section -->
+      <div id="temporary-notes-section" class="section">
+        <div class="section-header">
+          <h3>Temporary Notes</h3>
+          <div class="section-actions">
+            <button
+              id="clear-temporary-notes-btn"
+              class="icon-btn"
+              title="Clear Temporary Notes"
+            >
+              <span class="icon">🗑️</span>
+            </button>
+          </div>
+        </div>
+
+        <textarea
+          id="temporary-notes-textarea"
+          class="temporary-notes-textarea"
+          rows="5"
+          placeholder="The content in this box will be deleted when the side panel is closed."
+        ></textarea>
+      </div>
+
+      <!-- Footer -->
+      <footer class="sidebar-footer">
+        <div id="refresh-btn" class="footer-info" title="Refresh">
+          <small>Session data clears on browser close</small>
+        </div>
+      </footer>
+    </div>
+
+    <script src="sidepanel.js"></script>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "OA Extension",
+  "version": "0.0.1",
+  "description": "A Chrome extension tailored to improve our clinic workflows when interacting with OA applications.",
+  "permissions": ["storage", "activeTab", "sidePanel", "tabs"],
+  "action": {
+    "default_title": "OA Extension"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://pm.officeally.com/pm/ManagePatients/EditPatient.aspx*"
+      ],
+      "js": ["content-scripts/oa-edit-patient.js"]
+    }
+  ]
+}
