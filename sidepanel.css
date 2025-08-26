@@ -111,14 +111,14 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #f8f9fa;
+  background-color: #00125f;
 }
 
 .section-header h3 {
   margin: 0;
   font-size: 16px;
   font-weight: 600;
-  color: #495057;
+  color: white;
 }
 
 .section-actions {
