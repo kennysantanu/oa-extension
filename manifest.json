@@ -22,9 +22,9 @@
   "content_scripts": [
     {
       "matches": [
-        "https://pm.officeally.com/pm/ManagePatients/EditPatient.aspx*"
+        "https://pm.officeally.com/pm/ManagePatients/EditPatient.aspx?Tab=P&PageAction=edit*"
       ],
-      "js": ["content-scripts/oa-edit-patient.js"]
+      "js": ["content-scripts/pm-edit-patient.js"]
     }
   ]
 }
