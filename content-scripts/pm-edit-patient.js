@@ -1,5 +1,5 @@
 // Get values from specified element IDs and create a structured object
-function getPatientInfo() {
+const getPatientInfo = () => {
   const getValue = (id) => {
     const el = document.getElementById(id);
     if (!el) return null;
@@ -9,17 +9,19 @@ function getPatientInfo() {
     return el.value !== undefined ? el.value : el.textContent;
   };
 
-  function padToTwoDigits(value) {
+  // Helper function to pad a number to two digits
+  const padToTwoDigits = (value) => {
     if (value == null) return "00";
     const s = String(value);
     return s.padStart(2, "0");
-  }
+  };
 
   return {
     demographics: {
       patientId: getValue("ctl00_phFolderContent_ucPatient_lblPatientID"),
       lastName: getValue("ctl00_phFolderContent_ucPatient_LastName"),
       firstName: getValue("ctl00_phFolderContent_ucPatient_FirstName"),
+      gender: getValue("ctl00_phFolderContent_ucPatient_lblGender"),
       dob: {
         month: padToTwoDigits(
           getValue("ctl00_phFolderContent_ucPatient_DOB_Month")
@@ -49,7 +51,7 @@ function getPatientInfo() {
       ),
     },
   };
-}
+};
 
 // Notify the background script that the Edit Patient page is detected
 chrome.runtime.sendMessage({
