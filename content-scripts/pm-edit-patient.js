@@ -9,28 +9,20 @@ const getPatientInfo = () => {
     return el.value !== undefined ? el.value : el.textContent;
   };
 
-  // Helper function to pad a number to two digits
-  const padToTwoDigits = (value) => {
-    if (value == null) return "00";
-    const s = String(value);
-    return s.padStart(2, "0");
-  };
-
   return {
     demographics: {
       patientId: getValue("ctl00_phFolderContent_ucPatient_lblPatientID"),
       lastName: getValue("ctl00_phFolderContent_ucPatient_LastName"),
       firstName: getValue("ctl00_phFolderContent_ucPatient_FirstName"),
       gender: getValue("ctl00_phFolderContent_ucPatient_lblGender"),
-      dob: {
-        month: padToTwoDigits(
-          getValue("ctl00_phFolderContent_ucPatient_DOB_Month")
-        ),
-        day: padToTwoDigits(
-          getValue("ctl00_phFolderContent_ucPatient_DOB_Day")
-        ),
-        year: getValue("ctl00_phFolderContent_ucPatient_DOB_Year"),
-      },
+      dob: (() => {
+        const dobAge = getValue("ctl00_phFolderContent_ucPatient_lblDOB");
+        return dobAge ? dobAge.split(" - ")[0] : null;
+      })(),
+      age: (() => {
+        const dobAge = getValue("ctl00_phFolderContent_ucPatient_lblDOB");
+        return dobAge ? dobAge.split(" - ")[1] : null;
+      })(),
       street: getValue("ctl00_phFolderContent_ucPatient_AddressLine1"),
       city: getValue("ctl00_phFolderContent_ucPatient_City"),
       state: getValue("ctl00_phFolderContent_ucPatient_lstState"),
