@@ -45,8 +45,12 @@ const getPatientInfo = () => {
   };
 };
 
-// Notify the background script that the Edit Patient page is detected
-chrome.runtime.sendMessage({
-  type: "PM_EDIT_PATIENT_PAGE",
-  payload: getPatientInfo(),
-});
+// Only run the script on the Edit Patient page
+const urlObj = new URL(window.location.href);
+if (urlObj.searchParams.has("PID")) {
+  // Notify the background script that the Edit Patient page is detected
+  chrome.runtime.sendMessage({
+    type: "PM_EDIT_PATIENT_PAGE",
+    payload: getPatientInfo(),
+  });
+}
