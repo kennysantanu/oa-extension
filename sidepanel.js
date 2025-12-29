@@ -197,6 +197,34 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 // Event listener for side panel
 document.addEventListener("DOMContentLoaded", function () {
+  // Tab functionality
+  const patientTabBtn = document.getElementById("patient-tab-btn");
+  const visitTabBtn = document.getElementById("visit-tab-btn");
+  const patientTab = document.getElementById("patient-tab");
+  const visitTab = document.getElementById("visit-tab");
+
+  const switchTab = (activeBtn, inactiveBtn, activeTab, inactiveTab) => {
+    // Update button classes
+    activeBtn.classList.add("active");
+    inactiveBtn.classList.remove("active");
+
+    // Update tab content classes
+    activeTab.classList.add("active-tab");
+    activeTab.classList.remove("hidden");
+    inactiveTab.classList.remove("active-tab");
+    inactiveTab.classList.add("hidden");
+  };
+
+  if (patientTabBtn && visitTabBtn && patientTab && visitTab) {
+    patientTabBtn.addEventListener("click", function () {
+      switchTab(patientTabBtn, visitTabBtn, patientTab, visitTab);
+    });
+
+    visitTabBtn.addEventListener("click", function () {
+      switchTab(visitTabBtn, patientTabBtn, visitTab, patientTab);
+    });
+  }
+
   const backToListBtn = document.getElementById("back-to-list-btn");
   if (backToListBtn) {
     backToListBtn.addEventListener("click", function () {

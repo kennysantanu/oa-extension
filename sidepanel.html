@@ -7,110 +7,137 @@
   </head>
   <body>
     <div id="sidebar-container">
-      <!-- Page Action Section -->
-      <div id="page-action-section" class="section hidden">
-        <div class="section-header">
-          <h3>Page Action</h3>
-        </div>
-
-        <!-- Page Action Content -->
-        <div id="page-action-content" class="content">
-          <div id="no-actions" class="empty-state">
-            <p>No page action available.</p>
-          </div>
-        </div>
+      <!-- Sidebar Tabs -->
+      <div class="tabs">
+        <button id="patient-tab-btn" class="tab-btn active">Patient</button>
+        <button id="visit-tab-btn" class="tab-btn">Visit</button>
       </div>
-
-      <!-- Recent Patients Section -->
-      <div id="recent-patients-section" class="section">
-        <div class="section-header">
-          <h3>Recent Patients</h3>
-          <div class="section-actions">
-            <button id="refresh-btn" class="icon-btn" title="Refresh">
-              <span class="icon"
-                ><img src="icons/rotate-cw.svg" alt="Refresh Icon"
-              /></span>
-            </button>
-          </div>
-        </div>
-        <div id="recent-patients-content" class="content">
-          <div class="empty-state">
-            <p>No recent patients available.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Patient Detail Section -->
-      <div id="patient-detail-section" class="section hidden">
-        <div class="section-header">
-          <h3 id="patient-detail-title">Patient Details</h3>
-          <button id="back-to-list-btn" class="icon-btn" title="Back to List">
-            <span class="icon">
-              <img src="icons/arrow-left.svg" alt="Back Icon" />
-            </span>
-          </button>
-        </div>
-
-        <div id="patient-detail-content" class="patient-detail">
-          <!-- Demographics Section -->
-          <div class="detail-section">
-            <h4>Patient Demographics</h4>
-            <div id="demographics-fields" class="field-group">
-              <!-- Dynamic content populated by JavaScript -->
-            </div>
+      <div id="patient-tab" class="active-tab">
+        <!-- Page Action Section -->
+        <div id="page-action-section" class="section hidden">
+          <div class="section-header">
+            <h3>Page Action</h3>
           </div>
 
-          <!-- Primary Insurance Section -->
-          <div class="detail-section">
-            <h4>Primary Insurance</h4>
-            <div id="primary-insurance-fields" class="field-group">
-              <!-- Dynamic content populated by JavaScript -->
-            </div>
-          </div>
-
-          <!-- Secondary Insurance Section -->
-          <div class="detail-section">
-            <h4>Secondary Insurance</h4>
-            <div id="secondary-insurance-fields" class="field-group">
-              <!-- Dynamic content populated by JavaScript -->
-            </div>
-          </div>
-
-          <!-- Contact Information Section -->
-          <div class="detail-section">
-            <h4>Contact Information</h4>
-            <div id="contact-information-fields" class="field-group">
-              <!-- Dynamic content populated by JavaScript -->
+          <!-- Page Action Content -->
+          <div id="page-action-content" class="content">
+            <div id="no-actions" class="empty-state">
+              <p>No page action available.</p>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Temporary Notes Section -->
-      <div id="temporary-notes-section" class="section">
-        <div class="section-header">
-          <h3>Temporary Notes</h3>
-          <div class="section-actions">
-            <button
-              id="clear-temporary-notes-btn"
-              class="icon-btn"
-              title="Clear Temporary Notes"
-            >
+        <!-- Recent Patients Section -->
+        <div id="recent-patients-section" class="section">
+          <div class="section-header">
+            <h3>Recent Patients</h3>
+            <div class="section-actions">
+              <button id="refresh-btn" class="icon-btn" title="Refresh">
+                <span class="icon"
+                  ><img src="icons/rotate-cw.svg" alt="Refresh Icon"
+                /></span>
+              </button>
+            </div>
+          </div>
+          <div id="recent-patients-content" class="content">
+            <div class="empty-state">
+              <p>No recent patients available.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Patient Detail Section -->
+        <div id="patient-detail-section" class="section hidden">
+          <div class="section-header">
+            <h3 id="patient-detail-title">Patient Details</h3>
+            <button id="back-to-list-btn" class="icon-btn" title="Back to List">
               <span class="icon">
-                <img src="icons/trash-2.svg" alt="Clear Icon" />
+                <img src="icons/arrow-left.svg" alt="Back Icon" />
               </span>
             </button>
           </div>
+
+          <div id="patient-detail-content" class="patient-detail">
+            <!-- Demographics Section -->
+            <div class="detail-section">
+              <h4>Patient Demographics</h4>
+              <div id="demographics-fields" class="field-group">
+                <!-- Dynamic content populated by JavaScript -->
+              </div>
+            </div>
+
+            <!-- Primary Insurance Section -->
+            <div class="detail-section">
+              <h4>Primary Insurance</h4>
+              <div id="primary-insurance-fields" class="field-group">
+                <!-- Dynamic content populated by JavaScript -->
+              </div>
+            </div>
+
+            <!-- Secondary Insurance Section -->
+            <div class="detail-section">
+              <h4>Secondary Insurance</h4>
+              <div id="secondary-insurance-fields" class="field-group">
+                <!-- Dynamic content populated by JavaScript -->
+              </div>
+            </div>
+
+            <!-- Contact Information Section -->
+            <div class="detail-section">
+              <h4>Contact Information</h4>
+              <div id="contact-information-fields" class="field-group">
+                <!-- Dynamic content populated by JavaScript -->
+              </div>
+            </div>
+          </div>
         </div>
 
-        <textarea
-          id="temporary-notes-textarea"
-          class="temporary-notes-textarea"
-          rows="5"
-          placeholder="The content in this box will be deleted when the side panel is closed."
-        ></textarea>
+        <!-- Temporary Notes Section -->
+        <div id="temporary-notes-section" class="section">
+          <div class="section-header">
+            <h3>Temporary Notes</h3>
+            <div class="section-actions">
+              <button
+                id="clear-temporary-notes-btn"
+                class="icon-btn"
+                title="Clear Temporary Notes"
+              >
+                <span class="icon">
+                  <img src="icons/trash-2.svg" alt="Clear Icon" />
+                </span>
+              </button>
+            </div>
+          </div>
+
+          <textarea
+            id="temporary-notes-textarea"
+            class="temporary-notes-textarea"
+            rows="5"
+            placeholder="The content in this box will be deleted when the side panel is closed."
+          ></textarea>
+        </div>
       </div>
 
+      <div id="visit-tab" class="hidden">
+        <!-- Recent Visits Section -->
+        <div id="recent-visits-section" class="section">
+          <div class="section-header">
+            <h3>Recent Visits</h3>
+            <div class="section-actions">
+              <button id="refresh-visits-btn" class="icon-btn" title="Refresh">
+                <span class="icon"
+                  ><img src="icons/rotate-cw.svg" alt="Refresh Icon"
+                /></span>
+              </button>
+            </div>
+          </div>
+          <div id="recent-visits-content" class="content">
+            <div class="empty-state">
+              <p>No recent visits available.</p>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- Footer -->
       <footer class="sidebar-footer">
         <div class="footer-info">
@@ -118,7 +145,6 @@
         </div>
       </footer>
     </div>
-
     <script src="sidepanel.js"></script>
   </body>
 </html>
