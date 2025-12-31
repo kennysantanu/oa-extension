@@ -7,33 +7,35 @@ const renderPatientList = (patientList) => {
   let contentDiv = "";
   patientList.forEach((patient) => {
     contentDiv += `
-    <div class="patient-item" id="patient-${patient.demographics.patientId}">
-      <div class="patient-info">
-        <div>
-          <span class="patient-name">
+    <div class="media-item patient-item" id="patient-${
+      patient.demographics.patientId
+    }">
+      <div class="media-item__body">
+        <div class="media-item__headline">
+          <span class="media-item__title">
             ${patient.demographics.lastName || ""}${
       patient.demographics.lastName || patient.demographics.firstName
         ? ", "
         : ""
     }${patient.demographics.firstName || ""}
           </span>
-          <span class="patient-meta">
-            (${patient.demographics.dob || ""})
-          </span>
+          <span class="media-item__meta">(${
+            patient.demographics.dob || ""
+          })</span>
         </div>
-        <div>
-          <span class="patient-meta">
-            ${patient.primaryInsurance.name || ""}
-          </span>
+        <div class="media-item__subline">
+          <span class="media-item__meta">${
+            patient.primaryInsurance.name || ""
+          }</span>
         </div>
-        <div>
-          <span class="patient-meta">
-            ${patient.secondaryInsurance.name || ""}
-          </span>
+        <div class="media-item__subline">
+          <span class="media-item__meta">${
+            patient.secondaryInsurance.name || ""
+          }</span>
         </div>
       </div>
-      <div class="patient-actions">
-        <button class="patient-item-icon-btn" id="view-details-btn-${
+      <div class="media-item__actions">
+        <button class="btn btn--icon media-item__action" id="view-details-btn-${
           patient.demographics.patientId
         }" title="View Patient Data">
           <span class="icon">
@@ -67,10 +69,10 @@ const renderPatientDetail = (patientId) => {
   const renderField = (label, value) => {
     if (!value) return "";
     return `
-      <div class="field-item">
-        <div class="field-label">${label}:</div>
-        <div class="field-value">${value || ""}</div>
-        <button class="copy-btn" title="Copy ${label}" aria-label="Copy ${label}">📋</button>
+      <div class="detail__field">
+        <div class="detail__label">${label}:</div>
+        <div class="detail__value">${value || ""}</div>
+        <button class="btn btn--ghost detail__copy-btn copy-btn" title="Copy ${label}" aria-label="Copy ${label}">📋</button>
       </div>
     `;
   };
@@ -165,44 +167,34 @@ const renderVisitList = (visitList) => {
   let contentDiv = "";
   visitList.forEach((visit) => {
     contentDiv += `
-    <div class="patient-item" id="visit-${visit.visitId}">
-      <div class="patient-info">
-        <div>
-          <span class="patient-name">
+    <div class="media-item visit-item" id="visit-${visit.visitId}">
+      <div class="media-item__body">
+        <div class="media-item__headline">
+          <span class="media-item__title">
             ${visit.demographics.lastName || ""}${
       visit.demographics.lastName || visit.demographics.firstName ? ", " : ""
     }${visit.demographics.firstName || ""}
           </span>
-          <span class="patient-meta">
-            (${visit.demographics.dob || ""})
-          </span>
+          <span class="media-item__meta">(${
+            visit.demographics.dob || ""
+          })</span>
         </div>
-        <div>
-          <span class="patient-name">
-            ${visit.visitDate || ""}
-          </span>
-          <span class="patient-name">
-            (${visit.cpt || ""})
-          </span>
-          <span class="charge-meta">
-            $${visit.charge || ""}
-          </span>
-          <span class="payment-meta">
-            $${visit.payment || ""}
-          </span>
-          <span class="balance-meta">
-            $${visit.balance || ""}
-          </span>
+        <div class="media-item__subline">
+          <span class="media-item__title">${visit.visitDate || ""}</span>
+          <span class="media-item__meta">(${visit.cpt || ""})</span>
+          <span class="amount amount--charge">$${visit.charge || ""}</span>
+          <span class="amount amount--payment">$${visit.payment || ""}</span>
+          <span class="amount amount--balance">$${visit.balance || ""}</span>
         </div>
-        <div>
-          <span class="patient-meta">
-            ${visit.primaryInsurance.name || ""}
-          </span>
+        <div class="media-item__subline">
+          <span class="media-item__meta">${
+            visit.primaryInsurance.name || ""
+          }</span>
         </div>
-        <div>
-          <span class="patient-meta">
-            ${visit.secondaryInsurance.name || ""}
-          </span>
+        <div class="media-item__subline">
+          <span class="media-item__meta">${
+            visit.secondaryInsurance.name || ""
+          }</span>
         </div>
       </div>      
     </div>`;
@@ -280,14 +272,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const switchTab = (activeBtn, inactiveBtn, activeTab, inactiveTab) => {
     // Update button classes
-    activeBtn.classList.add("active");
-    inactiveBtn.classList.remove("active");
+    activeBtn.classList.add("is-active");
+    inactiveBtn.classList.remove("is-active");
 
     // Update tab content classes
-    activeTab.classList.add("active-tab");
-    activeTab.classList.remove("hidden");
-    inactiveTab.classList.remove("active-tab");
-    inactiveTab.classList.add("hidden");
+    activeTab.classList.add("is-active");
+    inactiveTab.classList.remove("is-active");
   };
 
   if (patientTabBtn && visitTabBtn && patientTab && visitTab) {
@@ -345,7 +335,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const recentContent = document.getElementById("recent-patients-content");
   if (recentContent) {
     recentContent.addEventListener("click", (event) => {
-      const btn = event.target.closest(".patient-item-icon-btn");
+      const btn = event.target.closest(".media-item__action");
       if (!btn) return;
 
       // try to get patient id from the button id first, otherwise from parent .patient-item
@@ -354,7 +344,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (idMatch) {
         patientId = idMatch[1];
       } else {
-        const item = btn.closest(".patient-item");
+        const item = btn.closest(".media-item");
         const itemMatch = ((item && item.id) || "").match(/^patient-(.+)$/);
         if (itemMatch) patientId = itemMatch[1];
       }

@@ -8,21 +8,23 @@
   <body>
     <div id="sidebar-container">
       <!-- Sidebar Tabs -->
-      <div class="tabs">
-        <button id="patient-tab-btn" class="tab-btn active">Patient</button>
-        <button id="visit-tab-btn" class="tab-btn">Visit</button>
+      <div class="tablist">
+        <button id="patient-tab-btn" class="tablist__btn is-active">
+          Patient
+        </button>
+        <button id="visit-tab-btn" class="tablist__btn">Visit</button>
       </div>
 
       <!-- Patient Tab -->
-      <div id="patient-tab" class="active-tab">
+      <div id="patient-tab" class="tab-panel is-active">
         <!-- Page Action Section -->
-        <div id="page-action-section" class="section hidden">
-          <div class="section-header">
-            <h3>Page Action</h3>
+        <div id="page-action-section" class="panel hidden">
+          <div class="panel__header">
+            <h3 class="panel__title">Page Action</h3>
           </div>
 
           <!-- Page Action Content -->
-          <div id="page-action-content" class="content">
+          <div id="page-action-content" class="panel__content">
             <div id="no-actions" class="empty-state">
               <p>No page action available.</p>
             </div>
@@ -30,18 +32,18 @@
         </div>
 
         <!-- Recent Patients Section -->
-        <div id="recent-patients-section" class="section">
-          <div class="section-header">
-            <h3>Recent Patients</h3>
-            <div class="section-actions">
-              <button id="refresh-btn" class="icon-btn" title="Refresh">
+        <div id="recent-patients-section" class="panel">
+          <div class="panel__header">
+            <h3 class="panel__title">Recent Patients</h3>
+            <div class="panel__actions">
+              <button id="refresh-btn" class="btn btn--icon" title="Refresh">
                 <span class="icon"
                   ><img src="icons/rotate-cw.svg" alt="Refresh Icon"
                 /></span>
               </button>
             </div>
           </div>
-          <div id="recent-patients-content" class="content">
+          <div id="recent-patients-content" class="panel__content media-list">
             <div class="empty-state">
               <p>No recent patients available.</p>
             </div>
@@ -49,45 +51,51 @@
         </div>
 
         <!-- Patient Detail Section -->
-        <div id="patient-detail-section" class="section hidden">
-          <div class="section-header">
-            <h3 id="patient-detail-title">Patient Details</h3>
-            <button id="back-to-list-btn" class="icon-btn" title="Back to List">
+        <div id="patient-detail-section" class="panel hidden">
+          <div class="panel__header">
+            <h3 id="patient-detail-title" class="panel__title">
+              Patient Details
+            </h3>
+            <button
+              id="back-to-list-btn"
+              class="btn btn--icon"
+              title="Back to List"
+            >
               <span class="icon">
                 <img src="icons/arrow-left.svg" alt="Back Icon" />
               </span>
             </button>
           </div>
 
-          <div id="patient-detail-content" class="patient-detail">
+          <div id="patient-detail-content" class="panel__content detail">
             <!-- Demographics Section -->
-            <div class="detail-section">
-              <h4>Patient Demographics</h4>
-              <div id="demographics-fields" class="field-group">
+            <div class="detail__section">
+              <h4 class="detail__title">Patient Demographics</h4>
+              <div id="demographics-fields" class="detail__fields">
                 <!-- Dynamic content populated by JavaScript -->
               </div>
             </div>
 
             <!-- Primary Insurance Section -->
-            <div class="detail-section">
-              <h4>Primary Insurance</h4>
-              <div id="primary-insurance-fields" class="field-group">
+            <div class="detail__section">
+              <h4 class="detail__title">Primary Insurance</h4>
+              <div id="primary-insurance-fields" class="detail__fields">
                 <!-- Dynamic content populated by JavaScript -->
               </div>
             </div>
 
             <!-- Secondary Insurance Section -->
-            <div class="detail-section">
-              <h4>Secondary Insurance</h4>
-              <div id="secondary-insurance-fields" class="field-group">
+            <div class="detail__section">
+              <h4 class="detail__title">Secondary Insurance</h4>
+              <div id="secondary-insurance-fields" class="detail__fields">
                 <!-- Dynamic content populated by JavaScript -->
               </div>
             </div>
 
             <!-- Contact Information Section -->
-            <div class="detail-section">
-              <h4>Contact Information</h4>
-              <div id="contact-information-fields" class="field-group">
+            <div class="detail__section">
+              <h4 class="detail__title">Contact Information</h4>
+              <div id="contact-information-fields" class="detail__fields">
                 <!-- Dynamic content populated by JavaScript -->
               </div>
             </div>
@@ -95,13 +103,13 @@
         </div>
 
         <!-- Temporary Notes Section -->
-        <div id="temporary-notes-section" class="section">
-          <div class="section-header">
-            <h3>Temporary Notes</h3>
-            <div class="section-actions">
+        <div id="temporary-notes-section" class="panel">
+          <div class="panel__header">
+            <h3 class="panel__title">Temporary Notes</h3>
+            <div class="panel__actions">
               <button
                 id="clear-temporary-notes-btn"
-                class="icon-btn"
+                class="btn btn--icon"
                 title="Clear Temporary Notes"
               >
                 <span class="icon">
@@ -111,30 +119,36 @@
             </div>
           </div>
 
-          <textarea
-            id="temporary-notes-textarea"
-            class="temporary-notes-textarea"
-            rows="5"
-            placeholder="The content in this box will be deleted when the side panel is closed."
-          ></textarea>
+          <div class="panel__content">
+            <textarea
+              id="temporary-notes-textarea"
+              class="note-textarea"
+              rows="5"
+              placeholder="The content in this box will be deleted when the side panel is closed."
+            ></textarea>
+          </div>
         </div>
       </div>
 
       <!-- Visit Tab -->
-      <div id="visit-tab" class="hidden">
+      <div id="visit-tab" class="tab-panel">
         <!-- Recent Visits Section -->
-        <div id="recent-visits-section" class="section">
-          <div class="section-header">
-            <h3>Recent Visits</h3>
-            <div class="section-actions">
-              <button id="refresh-visits-btn" class="icon-btn" title="Refresh">
+        <div id="recent-visits-section" class="panel">
+          <div class="panel__header">
+            <h3 class="panel__title">Recent Visits</h3>
+            <div class="panel__actions">
+              <button
+                id="refresh-visits-btn"
+                class="btn btn--icon"
+                title="Refresh"
+              >
                 <span class="icon"
                   ><img src="icons/rotate-cw.svg" alt="Refresh Icon"
                 /></span>
               </button>
             </div>
           </div>
-          <div id="recent-visits-content" class="content">
+          <div id="recent-visits-content" class="panel__content media-list">
             <div class="empty-state">
               <p>No recent visits available.</p>
             </div>
