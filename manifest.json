@@ -25,6 +25,12 @@
         "https://pm.officeally.com/pm/ManagePatients/EditPatient.aspx?*"
       ],
       "js": ["content-scripts/pm-edit-patient.js"]
+    },
+    {
+      "matches": [
+        "https://pm.officeally.com/pm/PatientVisits/EditVisit.aspx?*"
+      ],
+      "js": ["content-scripts/pm-edit-visit.js"]
     }
   ]
 }

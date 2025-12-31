@@ -1,5 +1,6 @@
 // Variable
 let patientList = [];
+let visitList = [];
 
 // Functions
 const renderPatientList = (patientList) => {
@@ -160,6 +161,55 @@ const renderPatientDetail = (patientId) => {
   }
 };
 
+const renderVisitList = (visitList) => {
+  let contentDiv = "";
+  visitList.forEach((visit) => {
+    contentDiv += `
+    <div class="patient-item" id="visit-${visit.visitId}">
+      <div class="patient-info">
+        <div>
+          <span class="patient-name">
+            ${visit.demographics.lastName || ""}${
+      visit.demographics.lastName || visit.demographics.firstName ? ", " : ""
+    }${visit.demographics.firstName || ""}
+          </span>
+          <span class="patient-meta">
+            (${visit.demographics.dob || ""})
+          </span>
+        </div>
+        <div>
+          <span class="patient-name">
+            ${visit.visitDate || ""}
+          </span>
+          <span class="patient-name">
+            (${visit.cpt || ""})
+          </span>
+          <span class="charge-meta">
+            $${visit.charge || ""}
+          </span>
+          <span class="payment-meta">
+            $${visit.payment || ""}
+          </span>
+          <span class="balance-meta">
+            $${visit.balance || ""}
+          </span>
+        </div>
+        <div>
+          <span class="patient-meta">
+            ${visit.primaryInsurance.name || ""}
+          </span>
+        </div>
+        <div>
+          <span class="patient-meta">
+            ${visit.secondaryInsurance.name || ""}
+          </span>
+        </div>
+      </div>      
+    </div>`;
+  });
+  return contentDiv;
+};
+
 // ## Chrome onMessage listeners
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   // Guard against null/undefined messages (service worker used to forward `null`)
@@ -191,6 +241,31 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     const contentDiv = document.getElementById("recent-patients-content");
     if (contentDiv) {
       contentDiv.innerHTML = renderPatientList(patientList);
+    }
+  }
+
+  // pm-edit-visit.js
+  if (message.type === "PM_EDIT_VISIT_PAGE") {
+    const VISIT_INFO = message.payload || {};
+    const MAX_ENTRIES = 10;
+
+    for (let i = 0; i < visitList.length; i++) {
+      const v = visitList[i];
+      if (VISIT_INFO.visitId && v.visitId === VISIT_INFO.visitId) {
+        visitList.splice(i, 1);
+        break;
+      }
+    }
+
+    visitList.unshift(VISIT_INFO);
+
+    if (visitList.length > MAX_ENTRIES) {
+      visitList = visitList.slice(0, MAX_ENTRIES);
+    }
+
+    const contentDiv = document.getElementById("recent-visits-content");
+    if (contentDiv) {
+      contentDiv.innerHTML = renderVisitList(visitList);
     }
   }
 });
@@ -255,6 +330,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const refreshBtn = document.getElementById("refresh-btn");
   if (refreshBtn) {
     refreshBtn.addEventListener("click", function () {
+      window.location.reload();
+    });
+  }
+
+  const refreshVisitsBtn = document.getElementById("refresh-visits-btn");
+  if (refreshVisitsBtn) {
+    refreshVisitsBtn.addEventListener("click", function () {
       window.location.reload();
     });
   }
@@ -376,6 +458,28 @@ chrome.runtime.sendMessage(
       }
 
       contentDiv.innerHTML = renderPatientList(patientList);
+    }
+  }
+);
+
+// Render visit list from session storage when the side panel loads
+chrome.runtime.sendMessage(
+  {
+    type: "GET_VISIT_LIST",
+  },
+  (response) => {
+    visitList = response || [];
+    const contentDiv = document.getElementById("recent-visits-content");
+    if (contentDiv) {
+      if (visitList.length === 0) {
+        contentDiv.innerHTML = `
+          <div class="empty-state">
+            <p>No recent visits available.</p>
+          </div>`;
+        return;
+      }
+
+      contentDiv.innerHTML = renderVisitList(visitList);
     }
   }
 );
