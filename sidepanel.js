@@ -3,6 +3,25 @@ let patientList = [];
 let visitList = [];
 
 // Functions
+const showToast = (message, type = "success") => {
+  let container = document.querySelector(".toast-container");
+  if (!container) {
+    container = document.createElement("div");
+    container.className = "toast-container";
+    document.body.appendChild(container);
+  }
+
+  const toast = document.createElement("div");
+  toast.className = `toast${type ? ` ${type}` : ""}`.trim();
+  toast.textContent = message;
+  container.appendChild(toast);
+
+  setTimeout(() => {
+    toast.classList.add("fade-out");
+    setTimeout(() => toast.remove(), 200);
+  }, 2000);
+};
+
 const renderPatientList = (patientList) => {
   let contentDiv = "";
   patientList.forEach((patient) => {
@@ -72,7 +91,16 @@ const renderPatientDetail = (patientId) => {
       <div class="detail__field">
         <div class="detail__label">${label}:</div>
         <div class="detail__value">${value || ""}</div>
-        <button class="btn btn--ghost detail__copy-btn copy-btn" title="Copy ${label}" aria-label="Copy ${label}">📋</button>
+        <button
+          class="btn btn--ghost detail__copy-btn copy-btn"
+          data-copy-label="${label}"
+          title="Copy ${label}"
+          aria-label="Copy ${label}"
+        >
+          <span class="icon">
+            <img src="icons/clipboard.svg" alt="Copy ${label} Icon" />
+          </span>
+        </button>
       </div>
     `;
   };
@@ -375,20 +403,15 @@ document.addEventListener("DOMContentLoaded", function () {
     patientDetailSection.addEventListener("click", (e) => {
       const copyBtn = e.target.closest(".copy-btn");
       if (!copyBtn) return;
-      const fieldItem = copyBtn.closest(".field-item");
+      const fieldItem = copyBtn.closest(".detail__field");
       if (!fieldItem) return;
-      const valueDiv = fieldItem.querySelector(".field-value");
+      const valueDiv = fieldItem.querySelector(".detail__value");
       if (!valueDiv) return;
       const text = valueDiv.textContent || "";
+      const label = copyBtn.dataset.copyLabel || "Field";
 
-      const original = copyBtn.textContent;
       const setSuccess = () => {
-        copyBtn.textContent = "✓";
-        copyBtn.classList.add("copied");
-        setTimeout(() => {
-          copyBtn.textContent = original;
-          copyBtn.classList.remove("copied");
-        }, 1200);
+        showToast(`${label} copied`, "success");
       };
 
       if (navigator.clipboard && navigator.clipboard.writeText) {

@@ -402,6 +402,11 @@ hover.btn--primary {
   padding: var(--space-1) var(--space-2);
 }
 
+.detail__copy-btn img {
+  width: 14px;
+  height: 14px;
+}
+
 .detail__copy-btn:hover {
   background-color: #e9ecef;
   color: #495057;
@@ -492,12 +497,14 @@ hover.btn--primary {
 /* Toast Notifications */
 .toast-container {
   position: fixed;
-  top: var(--space-4);
-  right: var(--space-4);
+  bottom: var(--space-4);
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 1001;
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
+  align-items: center;
 }
 
 .toast {
@@ -508,6 +515,7 @@ hover.btn--primary {
   border-left: 4px solid var(--color-success);
   max-width: 320px;
   animation: slideIn 0.3s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .toast.error {
@@ -518,13 +526,18 @@ hover.btn--primary {
   border-left-color: var(--color-warning);
 }
 
+.toast.fade-out {
+  opacity: 0;
+  transform: translateY(100%);
+}
+
 @keyframes slideIn {
   from {
-    transform: translateX(100%);
+    transform: translateY(100%);
     opacity: 0;
   }
   to {
-    transform: translateX(0);
+    transform: translateY(0);
     opacity: 1;
   }
 }
