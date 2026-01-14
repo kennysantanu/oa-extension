@@ -68,6 +68,27 @@
           </div>
 
           <div id="patient-detail-content" class="panel__content detail">
+            <!-- Actions Section -->
+            <div class="panel__actions">
+              <label class="toggle" for="capitalize-toggle">
+                <span class="icon">
+                  <img
+                    src="icons/a-large-small.svg"
+                    alt="Capitalize Fields Icon"
+                  />
+                </span>
+                <input
+                  type="checkbox"
+                  id="capitalize-toggle"
+                  class="toggle__input"
+                  aria-label="Capitalize patient text"
+                />
+                <span class="toggle__track" aria-hidden="true">
+                  <span class="toggle__thumb"></span>
+                </span>
+              </label>
+            </div>
+
             <!-- Demographics Section -->
             <div class="detail__section">
               <h4 class="detail__title">Patient Demographics</h4>

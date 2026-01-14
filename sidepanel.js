@@ -1,6 +1,8 @@
 // Variable
 let patientList = [];
 let visitList = [];
+let capitalizeMode = false;
+let currentPatientId = null;
 
 // Functions
 const showToast = (message, type = "success") => {
@@ -20,6 +22,22 @@ const showToast = (message, type = "success") => {
     toast.classList.add("fade-out");
     setTimeout(() => toast.remove(), 200);
   }, 2000);
+};
+
+const formatCapitalized = (value) => {
+  if (!capitalizeMode || typeof value !== "string") return value || "";
+  return value
+    .split(/(\s|-|\/)/)
+    .map((part) => {
+      if (/(\s|-|\/)/.test(part)) return part;
+      return part.charAt(0).toUpperCase() + part.slice(1).toLowerCase();
+    })
+    .join("");
+};
+
+const getDisplayValue = (value, allowCapitalize = true) => {
+  if (!allowCapitalize) return value || "";
+  return formatCapitalized(value);
 };
 
 const renderPatientList = (patientList) => {
@@ -84,6 +102,13 @@ const renderPatientDetail = (patientId) => {
     return;
   }
 
+  currentPatientId = patientId;
+
+  const capitalizeToggle = document.getElementById("capitalize-toggle");
+  if (capitalizeToggle) {
+    capitalizeToggle.checked = capitalizeMode;
+  }
+
   // Helper function to render a field
   const renderField = (label, value) => {
     if (!value) return "";
@@ -109,27 +134,28 @@ const renderPatientDetail = (patientId) => {
   // Header
   const header = document.getElementById("patient-detail-title");
   if (header) {
-    const capitalize = (str) =>
-      str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    const lastName = patient.demographics.lastName
-      ? capitalize(patient.demographics.lastName)
-      : "";
-    const firstName = patient.demographics.firstName
-      ? capitalize(patient.demographics.firstName)
-      : "";
+    const lastName = getDisplayValue(patient.demographics.lastName);
+    const firstName = getDisplayValue(patient.demographics.firstName);
+    const gender = getDisplayValue(patient.demographics.gender);
     header.innerHTML = `${lastName}${
       lastName || firstName ? ", " : ""
-    }${firstName} (${patient.demographics.gender || ""})`;
+    }${firstName} (${gender || ""})`;
   }
 
   // Demographic fields
   const demographicsFields = document.getElementById("demographics-fields");
   if (demographicsFields) {
     demographicsFields.innerHTML = `
-      ${renderField("Last Name", patient.demographics.lastName)}
-      ${renderField("First Name", patient.demographics.firstName)}
-      ${renderField("DOB", patient.demographics.dob)}
-      ${renderField("Age", patient.demographics.age)}
+      ${renderField(
+        "Last Name",
+        getDisplayValue(patient.demographics.lastName)
+      )}
+      ${renderField(
+        "First Name",
+        getDisplayValue(patient.demographics.firstName)
+      )}
+      ${renderField("DOB", getDisplayValue(patient.demographics.dob, false))}
+      ${renderField("Age", getDisplayValue(patient.demographics.age, false))}
     `;
   }
 
@@ -143,9 +169,15 @@ const renderPatientDetail = (patientId) => {
         patient.primaryInsurance.groupNumber);
     if (hasPrimary) {
       piFields.innerHTML = `
-        ${renderField("Name", patient.primaryInsurance.name)}
-        ${renderField("ID", patient.primaryInsurance.id)}
-        ${renderField("Group Number", patient.primaryInsurance.groupNumber)}
+        ${renderField("Name", getDisplayValue(patient.primaryInsurance.name))}
+        ${renderField(
+          "ID",
+          getDisplayValue(patient.primaryInsurance.id, false)
+        )}
+        ${renderField(
+          "Group Number",
+          getDisplayValue(patient.primaryInsurance.groupNumber, false)
+        )}
       `;
     } else {
       piFields.innerHTML =
@@ -163,9 +195,15 @@ const renderPatientDetail = (patientId) => {
         patient.secondaryInsurance.groupNumber);
     if (hasSecondary) {
       siFields.innerHTML = `
-        ${renderField("Name", patient.secondaryInsurance.name)}
-        ${renderField("ID", patient.secondaryInsurance.id)}
-        ${renderField("Group Number", patient.secondaryInsurance.groupNumber)}
+        ${renderField("Name", getDisplayValue(patient.secondaryInsurance.name))}
+        ${renderField(
+          "ID",
+          getDisplayValue(patient.secondaryInsurance.id, false)
+        )}
+        ${renderField(
+          "Group Number",
+          getDisplayValue(patient.secondaryInsurance.groupNumber, false)
+        )}
       `;
     } else {
       siFields.innerHTML =
@@ -177,10 +215,16 @@ const renderPatientDetail = (patientId) => {
   const contactFields = document.getElementById("contact-information-fields");
   if (contactFields) {
     contactFields.innerHTML = `
-      ${renderField("Street", patient.demographics.street)}
-      ${renderField("City", patient.demographics.city)}
-      ${renderField("State", patient.demographics.state)}
-      ${renderField("Zip Code", patient.demographics.zipCode)}
+      ${renderField("Street", getDisplayValue(patient.demographics.street))}
+      ${renderField("City", getDisplayValue(patient.demographics.city))}
+      ${renderField(
+        "State",
+        getDisplayValue(patient.demographics.state, false)
+      )}
+      ${renderField(
+        "Zip Code",
+        getDisplayValue(patient.demographics.zipCode, false)
+      )}
     `;
   }
 
@@ -315,6 +359,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     visitTabBtn.addEventListener("click", function () {
       switchTab(visitTabBtn, patientTabBtn, visitTab, patientTab);
+    });
+  }
+
+  const capitalizeToggle = document.getElementById("capitalize-toggle");
+  if (capitalizeToggle) {
+    capitalizeToggle.addEventListener("change", (event) => {
+      capitalizeMode = event.target.checked;
+      if (currentPatientId) {
+        renderPatientDetail(currentPatientId);
+      }
     });
   }
 
