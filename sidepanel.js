@@ -40,6 +40,15 @@ const getDisplayValue = (value, allowCapitalize = true) => {
   return formatCapitalized(value);
 };
 
+const escapeHtml = (text = "") => {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+};
+
 const renderPatientList = (patientList) => {
   let contentDiv = "";
   patientList.forEach((patient) => {
@@ -226,6 +235,29 @@ const renderPatientDetail = (patientId) => {
         getDisplayValue(patient.demographics.zipCode, false)
       )}
     `;
+  }
+
+  // Patient notes
+  const notesContainer = document.getElementById("patient-notes");
+  if (notesContainer) {
+    const notes = patient.notes || [];
+    if (!notes.length) {
+      notesContainer.innerHTML =
+        '<div class="empty-state text-muted">No patient notes found.</div>';
+    } else {
+      notesContainer.innerHTML = notes
+        .map((note) => {
+          const safeNote = escapeHtml(note.note || "Empty note");
+          const safeDate = escapeHtml(note.dateCreated || "");
+          return `
+            <div class="note-item">
+              <div class="note-item__date">${safeDate}</div>
+              <div class="note-item__text">${safeNote}</div>
+            </div>
+          `;
+        })
+        .join("");
+    }
   }
 
   // Switch to patient detail view

@@ -9,6 +9,32 @@ const getPatientInfo = () => {
     return el.value !== undefined ? el.value : el.textContent;
   };
 
+  const getPatientNotes = () => {
+    const table = document.getElementById(
+      "ctl00_phFolderContent_ucPatient_ucPatientNotes_grdNotes"
+    );
+    if (!table) return [];
+
+    const rows = Array.from(table.querySelectorAll("tr")).slice(1);
+    return rows
+      .map((row) => {
+        const cells = row.querySelectorAll("td");
+        if (!cells || cells.length < 2) return null;
+
+        const noteText = (cells[0].textContent || "")
+          .replace(/\s+/g, " ")
+          .trim();
+        const dateCreated = (cells[1].textContent || "").trim();
+        if (!noteText && !dateCreated) return null;
+
+        return {
+          note: noteText,
+          dateCreated,
+        };
+      })
+      .filter(Boolean);
+  };
+
   return {
     demographics: {
       patientId: getValue("ctl00_phFolderContent_ucPatient_lblPatientID"),
@@ -42,6 +68,7 @@ const getPatientInfo = () => {
         "ctl00_phFolderContent_ucPatient_SecondaryInsuranceGroupNo"
       ),
     },
+    notes: getPatientNotes(),
   };
 };
 
